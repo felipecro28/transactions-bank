@@ -14,13 +14,15 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  full_name String
-  document  String    @unique
-  password  String
-  kind      UserType
-  Account   Account[]
+  id                   Int           @id @default(autoincrement())
+  email                String        @unique
+  full_name            String
+  document             String        @unique
+  password             String
+  kind                 UserType
+  Account              Account[]
+  ReceiverTransactions Transaction[] @relation("ReceiverTransactions")
+  PayerTransactions    Transaction[] @relation("PayerTransactions")
 }
 
 model Account {
@@ -28,6 +30,15 @@ model Account {
   balance Float
   user    User  @relation(fields: [userId], references: [id])
   userId  Int
+}
+
+model Transaction {
+  id          Int   @id @default(autoincrement())
+  from        User  @relation("PayerTransactions", fields: [payer_id], references: [id])
+  to          User  @relation("ReceiverTransactions", fields: [receiver_id], references: [id])
+  value       Float
+  payer_id    Int
+  receiver_id Int
 }
 
 enum UserType {
