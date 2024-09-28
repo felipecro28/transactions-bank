@@ -30,4 +30,22 @@ export class UserService {
       );
     }
   }
+
+  async find(id: string) {
+    try {
+      const user = await this.userRepository.findUnique(+id);
+      if (!user) {
+        throw new HttpException(
+          "Não existe um usuário associado ao ID",
+          HttpStatus.NOT_FOUND
+        );
+      }
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.BAD_REQUEST
+      );
+    }
+  }
 }
