@@ -1091,6 +1091,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/client@npm:5.20.0":
+  version: 5.20.0
+  resolution: "@prisma/client@npm:5.20.0"
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: fecac7883b6e910abb68b27017c35a5d493d4fd40b721246f57acf3ee79f6b131851b45ab3240bb1f42efe98a33ab6877d7fa37026983f514685c32b117f573c
+  languageName: node
+  linkType: hard
+
 "@prisma/debug@npm:5.20.0":
   version: 5.20.0
   resolution: "@prisma/debug@npm:5.20.0"
@@ -6526,6 +6538,7 @@ __metadata:
     "@nestjs/platform-express": ^10.0.0
     "@nestjs/schematics": ^10.0.0
     "@nestjs/testing": ^10.0.0
+    "@prisma/client": 5.20.0
     "@types/express": ^4.17.17
     "@types/jest": ^29.5.2
     "@types/node": ^20.3.1
