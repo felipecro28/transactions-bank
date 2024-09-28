@@ -9,10 +9,10 @@ export class UserRepository {
 
   async create(data: CreateUserDTO) {
     const { document, email, full_name, kind, password } = data;
-    const user = await this.prismaService
-      .$executeRaw`INSERT INTO User (document, email, full_name, kind, password) VALUES (${document}, ${email}, ${full_name}, ${kind}, ${password})`;
+    const user: { id: number } = await this.prismaService
+      .$queryRaw`INSERT INTO "User" (document, email, full_name, kind , password) VALUES (${document}, ${email}, ${full_name}, ${kind}::"UserType", ${password}) RETURNING id`;
 
-    return user;
+    return user[0];
   }
 
   async findUnique(id: number): Promise<User | null> {
