@@ -14,12 +14,20 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   full_name String
-  document  String   @unique
+  document  String    @unique
   password  String
   kind      UserType
+  Account   Account[]
+}
+
+model Account {
+  id      Int   @id @default(autoincrement())
+  balance Float
+  user    User  @relation(fields: [userId], references: [id])
+  userId  Int
 }
 
 enum UserType {
