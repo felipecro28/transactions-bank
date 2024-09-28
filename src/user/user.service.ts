@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { UserRepository } from "./user.repository";
 import { CreateUserDTO } from "./dto/create-user.dto";
+import { IFoundUserCouple } from "./types/types";
 
 @Injectable()
 export class UserService {
@@ -46,6 +47,27 @@ export class UserService {
         error.message,
         error.status || HttpStatus.BAD_REQUEST
       );
+    }
+  }
+
+  async checkUsersBelongsToSameKind(data: IFoundUserCouple) {
+    try {
+      const users = await this.userRepository.foundCouple(data);
+
+      if (users.length !== 2) {
+        throw new HttpException(
+          "Impossível comparar o resultado: o número de usuários é maior ou inferior a dois.",
+          HttpStatus.CONFLICT
+        );
+      }
+
+      const belongsToSameKind = users[0].kind === users[1].kind;
+
+      return {
+        transactionAllowed: belongsToSameKind,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
     }
   }
 }

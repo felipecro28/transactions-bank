@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { User } from "@prisma/client";
+import { IFoundUserCouple } from "./types/types";
 
 @Injectable()
 export class UserRepository {
@@ -20,5 +21,13 @@ export class UserRepository {
       .$queryRaw`SELECT document, email, full_name, kind, password FROM "User" WHERE id = ${id}`;
 
     return user[0];
+  }
+
+  async foundCouple(data: IFoundUserCouple) {
+    const { idFrom, idTo } = data;
+    const users: User[] = await this.prismaService
+      .$queryRaw`SELECT document, email, full_name, kind FROM "User" WHERE id = ${idFrom} OR id = ${idTo}`;
+
+    return users;
   }
 }
