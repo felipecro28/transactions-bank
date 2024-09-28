@@ -17,8 +17,8 @@ export class UserRepository {
 
   async findUnique(id: number): Promise<User | null> {
     const user: User | null = await this.prismaService
-      .$queryRaw`SELECT document, email, full_name, kind, password FROM User WHERE id = ${id}`;
+      .$queryRaw`SELECT document, email, full_name, kind, password FROM "User" WHERE id = ${id}`;
 
-    return user;
+    return user[0];
   }
 }
